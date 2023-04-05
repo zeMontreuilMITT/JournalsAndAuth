@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using JournalsAndAuth.Data;
 using JournalsAndAuth.Models;
+using JournalsAndAuth.Areas.Identity.Data;
 
 namespace JournalsAndAuth.Controllers
 {
@@ -22,6 +23,10 @@ namespace JournalsAndAuth.Controllers
         // GET: Blogs
         public async Task<IActionResult> Index()
         {
+            // return only blogs the User is associated with
+
+            JournalsUser user 
+
               return _context.Blogs != null ? 
                           View(await _context.Blogs.ToListAsync()) :
                           Problem("Entity set 'JournalsContext.Blogs'  is null.");

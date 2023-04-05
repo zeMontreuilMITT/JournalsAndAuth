@@ -58,7 +58,6 @@ namespace JournalsAndAuth.Controllers
                 // add the user id of the logged in user to the note
                 note.UserId = _context.Users.First(u => u.UserName == User.Identity.Name).Id;
                 // re-evaluate the modelstate
-
                 ModelState.ClearValidationState(nameof(note.UserId));
 
                 if (TryValidateModel(note)) {
