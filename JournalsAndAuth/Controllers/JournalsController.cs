@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using JournalsAndAuth.Data;
 using JournalsAndAuth.Models;
+using JournalsAndAuth.Areas.Identity.Data;
 
 namespace JournalsAndAuth.Controllers
 {
@@ -22,8 +23,58 @@ namespace JournalsAndAuth.Controllers
         // GET: Journals
         public async Task<IActionResult> Index()
         {
-            var journalsContext = _context.Journals.Include(j => j.Blog).Include(j => j.User);
-            return View(await journalsContext.ToListAsync());
+            // query the User from the database with the same name of the currently logged in user
+            JournalsUser? user = _context.Users
+                .Include(u => u.Journals)
+                    .ThenInclude(j => j.Blog)
+                .FirstOrDefault(u => u.UserName == User.Identity.Name);
+
+            if(user != null)
+            {
+                return View(user.Journals.ToHashSet());   
+            } else
+            {
+                return BadRequest();
+            }
+        }
+
+        public async Task<IActionResult> AddNote(int? id)
+        {
+            if(id != null)
+            {
+                ViewData["JournalId"] = id;
+                return View();
+            } else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNote([Bind("JournalId,Body")] Note note)
+        {
+            try
+            {
+                // add the user id of the logged in user to the note
+                note.UserId = _context.Users.First(u => u.UserName == User.Identity.Name).Id;
+                // re-evaluate the modelstate
+
+                ModelState.ClearValidationState(nameof(note.UserId));
+
+                if (TryValidateModel(note)) {
+                    _context.Notes.Add(note);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(note);
+                }
+            } catch (Exception ex)
+            {
+                return BadRequest();
+            }
+            
         }
 
         // GET: Journals/Details/5

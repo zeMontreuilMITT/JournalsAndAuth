@@ -16,12 +16,15 @@ public class JournalsContext : IdentityDbContext<JournalsUser>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        // Customize the ASP.NET Identity model and override the defaults if needed.
-        // For example, you can rename the ASP.NET Identity table names and more.
-        // Add your customizations after calling base.OnModelCreating(builder);
+        
+        builder.Entity<Journal>().HasMany(j => j.Notes)
+            .WithOne(n => n.Journal)
+            .HasForeignKey(n => n.JournalId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 
     public DbSet<Journal> Journals { get; set; } = default!;
     public DbSet<Blog> Blogs { get; set; } = default!;
     public DbSet<UserBlog> UserBlogs { get; set; } = default!;
+    public DbSet<Note> Notes { get; set; } = default!;
 }

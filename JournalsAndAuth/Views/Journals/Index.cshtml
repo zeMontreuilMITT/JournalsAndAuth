@@ -38,14 +38,15 @@
                 @Html.DisplayFor(modelItem => item.PublicationTime)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Blog.Id)
+                @Html.DisplayFor(modelItem => item.Blog.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
+                @Html.DisplayFor(modelItem => item.User.UserName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="AddNote" asp-route-id="@item.Id">Add a Note</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>

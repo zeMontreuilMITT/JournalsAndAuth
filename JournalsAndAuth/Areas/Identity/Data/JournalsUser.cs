@@ -21,6 +21,7 @@ public class JournalsUser : IdentityUser
     [MaxLength(100)]
     public string LastName { get; set; } = default!;
 
-    public HashSet<UserBlog> BlogUsers { get; set; } = new HashSet<UserBlog>();
-    public HashSet<Journal> Journals { get; set; } = new HashSet<Journal>();
+    public virtual HashSet<UserBlog> BlogUsers { get; set; } = new HashSet<UserBlog>();
+    public virtual HashSet<Journal> Journals { get; set; } = new HashSet<Journal>();
+    public virtual HashSet<Note> Notes { get; set; } = new HashSet<Note>();
 }

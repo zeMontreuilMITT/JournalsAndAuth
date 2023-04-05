@@ -14,5 +14,6 @@ namespace JournalsAndAuth.Models
         public virtual JournalsUser? User { get; set; }
         public string UserId { get; set; } = default!;
 
+        public virtual HashSet<Note> Notes { get; set; } = new HashSet<Note>();
     }
 }
