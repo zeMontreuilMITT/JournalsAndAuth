@@ -7,10 +7,12 @@ namespace JournalsAndAuth.Models
         public int Id { get; set; }
         public string Body { get; set; }
         public DateTime PublicationTime { get; set; }
-        public Blog Blog { get; set; }
+
+        public virtual Blog? Blog { get; set; }
         public int BlogId { get; set; }
 
-        public JournalsUser User { get; set; }
-        public string UserId { get; set; }
+        public virtual JournalsUser? User { get; set; }
+        public string UserId { get; set; } = default!;
+
     }
 }

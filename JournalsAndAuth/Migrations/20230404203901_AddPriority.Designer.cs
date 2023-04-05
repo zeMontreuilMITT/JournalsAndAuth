@@ -4,6 +4,7 @@ using JournalsAndAuth.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JournalsAndAuth.Migrations
 {
     [DbContext(typeof(JournalsContext))]
-    partial class JournalsContextModelSnapshot : ModelSnapshot
+    [Migration("20230404203901_AddPriority")]
+    partial class AddPriority
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,16 +43,6 @@ namespace JournalsAndAuth.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -73,6 +65,9 @@ namespace JournalsAndAuth.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -111,7 +106,7 @@ namespace JournalsAndAuth.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Blogs", (string)null);
+                    b.ToTable("Blog");
                 });
 
             modelBuilder.Entity("JournalsAndAuth.Models.Journal", b =>
@@ -142,31 +137,7 @@ namespace JournalsAndAuth.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Journals", (string)null);
-                });
-
-            modelBuilder.Entity("JournalsAndAuth.Models.UserBlog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("BlogId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BlogId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserBlogs", (string)null);
+                    b.ToTable("Journal");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -325,25 +296,6 @@ namespace JournalsAndAuth.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("JournalsAndAuth.Models.UserBlog", b =>
-                {
-                    b.HasOne("JournalsAndAuth.Models.Blog", "Blog")
-                        .WithMany()
-                        .HasForeignKey("BlogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("JournalsAndAuth.Areas.Identity.Data.JournalsUser", "User")
-                        .WithMany("BlogUsers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Blog");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -397,8 +349,6 @@ namespace JournalsAndAuth.Migrations
 
             modelBuilder.Entity("JournalsAndAuth.Areas.Identity.Data.JournalsUser", b =>
                 {
-                    b.Navigation("BlogUsers");
-
                     b.Navigation("Journals");
                 });
 

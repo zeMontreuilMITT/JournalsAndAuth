@@ -10,7 +10,7 @@ var connectionString = builder.Configuration.GetConnectionString("JournalsContex
 builder.Services.AddDbContext<JournalsContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<JournalsUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<JournalsUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<JournalsContext>();
 
 
@@ -38,5 +38,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();

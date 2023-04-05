@@ -4,6 +4,7 @@ using JournalsAndAuth.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JournalsAndAuth.Migrations
 {
     [DbContext(typeof(JournalsContext))]
-    partial class JournalsContextModelSnapshot : ModelSnapshot
+    [Migration("20230405142917_AddNameToUser")]
+    partial class AddNameToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,7 +113,7 @@ namespace JournalsAndAuth.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Blogs", (string)null);
+                    b.ToTable("Blogs");
                 });
 
             modelBuilder.Entity("JournalsAndAuth.Models.Journal", b =>
@@ -142,7 +144,7 @@ namespace JournalsAndAuth.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Journals", (string)null);
+                    b.ToTable("Journals");
                 });
 
             modelBuilder.Entity("JournalsAndAuth.Models.UserBlog", b =>
@@ -166,7 +168,7 @@ namespace JournalsAndAuth.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserBlogs", (string)null);
+                    b.ToTable("UserBlogs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
