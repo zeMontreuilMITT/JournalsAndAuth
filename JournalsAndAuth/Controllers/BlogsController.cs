@@ -8,9 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using JournalsAndAuth.Data;
 using JournalsAndAuth.Models;
 using JournalsAndAuth.Areas.Identity.Data;
+using Microsoft.AspNetCore.Authorization;
+
+// Blacklisting: preventing specific users from accesssing specific methods
+// Whitelisting: Allowing only specific users to access specific methods
 
 namespace JournalsAndAuth.Controllers
 {
+    [Authorize]
     public class BlogsController : Controller
     {
         private readonly JournalsContext _context;
@@ -21,15 +26,22 @@ namespace JournalsAndAuth.Controllers
         }
 
         // GET: Blogs
+        // blacklist un-registered users from accessing the index
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            // return only blogs the User is associated with
+            /*
+            JournalsUser user = _context.Users
+                .Include(u => u.BlogUsers)
+                    .ThenInclude(bu => bu.Blog)
+                .First(u => u.UserName == User.Identity.Name);
 
-            JournalsUser user 
+            HashSet<Blog> blogs = user.BlogUsers.Select(bu => bu.Blog).ToHashSet();
+            */
 
-              return _context.Blogs != null ? 
-                          View(await _context.Blogs.ToListAsync()) :
-                          Problem("Entity set 'JournalsContext.Blogs'  is null.");
+            return _context.Blogs != null ? 
+                        View(await _context.Blogs.ToListAsync()) :
+                        Problem("Entity set 'JournalsContext.Blogs'  is null.");
         }
 
         // GET: Blogs/Details/5
