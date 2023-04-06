@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using JournalsAndAuth.Data;
 using JournalsAndAuth.Models;
 using JournalsAndAuth.Areas.Identity.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JournalsAndAuth.Controllers
 {
+    [Authorize]
     public class JournalsController : Controller
     {
         private readonly JournalsContext _context;

@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using JournalsAndAuth.Data;
 using JournalsAndAuth.Areas.Identity.Data;
+using JournalsAndAuth.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("JournalsContextConnection") ?? throw new InvalidOperationException("Connection string 'JournalsContextConnection' not found.");
@@ -11,6 +12,7 @@ builder.Services.AddDbContext<JournalsContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<JournalsUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<JournalsContext>();
 
 
@@ -18,6 +20,13 @@ builder.Services.AddDefaultIdentity<JournalsUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+using(IServiceScope scope = app.Services.CreateScope())
+{
+    IServiceProvider provider = scope.ServiceProvider;
+
+    await SeedMethod.Initialize(provider);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

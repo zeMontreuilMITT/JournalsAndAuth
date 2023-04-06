@@ -1,0 +1,17 @@
+﻿@using JournalsAndAuth.Areas.Identity.Data
+@model ICollection<JournalsUser>
+
+@{
+    ViewData["Title"] = "UserList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>User List</h1>
+<ul>
+    @foreach(JournalsUser user in Model)
+    {
+        <li>
+            @user.NormalizedEmail | <a asp-action="DeleteUser" asp-route-id="@user.Id"  >Delete</a>
+        </li>
+    }
+</ul>

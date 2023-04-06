@@ -1,0 +1,13 @@
+﻿@model JournalsAndAuth.Areas.Identity.Data.JournalsUser
+@{
+    ViewData["Title"] = "DeleteUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Are you sure you want to delete @Model.UserName?</h1>
+<form asp-action="DeleteUser" method="post">
+    <input type="submit" value="Yes"/>
+    <a asp-area="UserList">No</a>
+    <input asp-for="Id" value="@Model.Id" type="Hidden" />
+</form>
+
